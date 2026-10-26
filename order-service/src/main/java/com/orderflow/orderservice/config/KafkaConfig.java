@@ -7,8 +7,10 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class KafkaConfig {
 
+    public static final String ORDERS_CREATED_TOPIC = "orders-created";
+
     @Bean
     public NewTopic ordersCreatedTopic() {
-        return new NewTopic("orders-created", 3, (short) 1);
+        return new NewTopic(ORDERS_CREATED_TOPIC, 3, (short) 1);
     }
 }
