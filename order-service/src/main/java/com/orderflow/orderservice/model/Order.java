@@ -8,7 +8,6 @@ import org.hibernate.type.SqlTypes;
 
 import java.math.BigDecimal;
 import java.time.Instant;
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "orders")
@@ -80,5 +79,12 @@ public class Order {
     }
 
     public Order() {
+    }
+
+    public Order(String customerId, OrderStatus status, BigDecimal totalAmount, OrderDetails details) {
+        this.customerId = customerId;
+        this.status = status;
+        this.totalAmount = totalAmount;
+        this.details = details;
     }
 }

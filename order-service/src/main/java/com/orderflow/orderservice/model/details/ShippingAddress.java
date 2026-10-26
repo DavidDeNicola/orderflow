@@ -1,4 +1,6 @@
 package com.orderflow.orderservice.model.details;
 
-public record ShippingAddress(String street, String city, String zip) {
+import jakarta.validation.constraints.NotBlank;
+
+public record ShippingAddress(@NotBlank String street, @NotBlank String city, @NotBlank String zip) {
 }
