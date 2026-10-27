@@ -1,5 +1,6 @@
 package com.orderflow.inventoryservice.listener;
 
+import com.orderflow.inventoryservice.config.KafkaConfig;
 import com.orderflow.inventoryservice.event.OrderCreatedEvent;
 import com.orderflow.inventoryservice.service.InventoryService;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -18,7 +19,7 @@ public class OrderCreatedListener {
         this.inventoryService = inventoryService;
     }
 
-    @KafkaListener(topics = "orders-created", groupId = "inventory-service")
+    @KafkaListener(topics = KafkaConfig.ORDERS_CREATED_TOPIC, groupId = "inventory-service")
     public void listen(ConsumerRecord<String, OrderCreatedEvent> record) {
         log.info("Ricevuto evento: key={}, partition={}, offset={}, value={}", record.key(), record.partition(), record.offset(), record.value());
         inventoryService.handleOrderCreated(record.value());
