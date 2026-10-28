@@ -7,6 +7,7 @@ import com.orderflow.orderservice.model.details.OrderItem;
 import com.orderflow.orderservice.model.details.ShippingAddress;
 import com.orderflow.orderservice.repository.OrderRepository;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -98,5 +99,28 @@ class OrderControllerTest {
                 .andExpect(jsonPath("$.length()").value(2))
                 .andExpect(jsonPath("$[0].customerId").value("CUST-A"))
                 .andExpect(jsonPath("$[1].customerId").value("CUST-A"));
+    }
+
+    @Test
+    void getOrdersByDetails_returns400WhenBothParamsArePresent() throws  Exception {
+        mockMvc.perform(get("/orders/search")
+                .param("city", "Brindisi")
+                .param("productCode", "KB-001"))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void getOrdersByDetails_returns400WhenNoParamsArePresent() throws Exception {
+        mockMvc.perform(get("/orders/search"))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Disabled("Query nativa JSONB (->>): H2 non supporta gli operatori JSON di PostgreSQL. Verificata su Postgres reale.")
+    @Test
+    void getOrdersByDetails_returnsOrdersByCity() throws Exception {
+        mockMvc.perform(get("/orders/search")
+                .param("city", "Brindisi"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(3));
     }
 }
