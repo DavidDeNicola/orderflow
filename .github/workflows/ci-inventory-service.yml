@@ -1,0 +1,37 @@
+name: CI inventory-service
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'inventory-service/**'
+      - '.github/workflows/ci-inventory-service.yml'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'inventory-service/**'
+      - '.github/workflows/ci-inventory-service.yml'
+
+jobs:
+  test:
+    name: Test inventory-service
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: inventory-service
+
+    steps:
+      - name: Scarica il codice
+        uses: actions/checkout@v5
+
+      - name: Installa Java 25
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '25'
+          cache: maven
+          cache-dependency-path: inventory-service/pom.xml
+
+      - name: Esegui i test
+        run: mvn -B test
