@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: inventory-config
+  namespace: orderflow
+data:
+  DB_URL: "jdbc:postgresql://host.minikube.internal:5433/inventory_db"
+  DB_USER: "orderflow"
+  KAFKA_BOOTSTRAP_SERVERS: "host.minikube.internal:9094"
